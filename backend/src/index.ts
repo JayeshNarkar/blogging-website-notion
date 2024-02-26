@@ -156,7 +156,7 @@ app.put("/api/v1/blog", async (c) => {
         message: "invalid payload",
       });
     }
-    const post = await prisma.post.update({
+    await prisma.post.update({
       where: {
         id: body.id,
         authorId: userId,
