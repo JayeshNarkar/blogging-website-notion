@@ -1,8 +1,9 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { BeatLoader } from "react-spinners";
+
 import { useEffect, useState } from "react";
+import CustomLoader from "./components/ui/custom-loader.tsx";
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,18 +11,12 @@ function Main() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000); // 3 seconds
+    }, 3000);
 
     return () => clearTimeout(timer); // cleanup on unmount
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <BeatLoader color="#007BFF" loading={true} size={10} />
-      </div>
-    );
-  }
+  if (isLoading) return <CustomLoader />;
 
   return <App />;
 }

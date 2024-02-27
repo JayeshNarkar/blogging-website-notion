@@ -13,9 +13,8 @@ import UnAuthenticatedRoutes from "./pages/UnAuthenticatedRoutes";
 
 import { ThemeProvider } from "./components/ui/theme-provider";
 import NavbarCustom from "./components/ui/custom-navbar";
-
+import CustomLoader from "./components/ui/custom-loader";
 import { isAuthenticatedAtom } from "@/state/atoms";
-import { BeatLoader } from "react-spinners";
 
 function App() {
   return (
@@ -32,11 +31,7 @@ function App() {
 function MainApp() {
   const isAuthenticated = useRecoilValueLoadable(isAuthenticatedAtom);
   if (isAuthenticated.state === "loading") {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <BeatLoader color="#36d7b7" loading={true} size={10} />
-      </div>
-    );
+    return <CustomLoader />;
   } else if (isAuthenticated.state === "hasError") {
     return <h1>Error while authenticating </h1>;
   } else {
