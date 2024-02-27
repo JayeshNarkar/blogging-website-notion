@@ -10,6 +10,7 @@ import {
   createPostInput,
   updatePostInput,
 } from "@jayeshn/blog-common/dst";
+import { cors } from "hono/cors";
 
 const app = new Hono<{
   Bindings: {
@@ -20,6 +21,8 @@ const app = new Hono<{
     userId: string;
   };
 }>();
+
+app.use("*", cors());
 
 app.use("/api/v1/blog/*", async (c, next) => {
   const jwt = c.req.header("Authorization");
@@ -45,11 +48,11 @@ app.post("/api/v1/signup", async (c) => {
   }).$extends(withAccelerate());
   const body = await c.req.json();
   try {
-    const { success } = signupInput.safeParse(body);
-    if (!success) {
+    const result = signupInput.safeParse(body);
+    if (!result.success) {
       c.status(400);
       return c.json({
-        message: "invalid payload",
+        message: result.error.errors[0].message,
       });
     }
     const user = await prisma.user.create({
@@ -71,11 +74,11 @@ app.post("/api/v1/signin", async (c) => {
     datasourceUrl: c.env?.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const { success } = signinInput.safeParse(body);
-    if (!success) {
+    const result = signinInput.safeParse(body);
+    if (!result.success) {
       c.status(400);
       return c.json({
-        message: "invalid payload",
+        message: result.error.errors[0].message,
       });
     }
     const user = await prisma.user.findUnique({
@@ -101,11 +104,11 @@ app.post("/api/v1/blog", async (c) => {
   }).$extends(withAccelerate());
   const body = await c.req.json();
   try {
-    const { success } = createPostInput.safeParse(body);
-    if (!success) {
+    const result = createPostInput.safeParse(body);
+    if (!result.success) {
       c.status(400);
       return c.json({
-        message: "invalid payload",
+        message: result.error.errors[0].message,
       });
     }
     const post = await prisma.post.create({
@@ -121,6 +124,39 @@ app.post("/api/v1/blog", async (c) => {
   } catch (e: any) {
     c.status(500);
     return c.json({ message: e?.error?.message });
+  }
+});
+
+app.get("/api/v1/user", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const token = c.req.header("Authorization");
+  if (!token) {
+    c.status(411);
+    return c.json({ message: "Token not found" });
+  }
+  try {
+    const jwt_token = token.split(" ")[1];
+    const payload = await verify(jwt_token, c.env.JWT_SECRET);
+    if (!payload) {
+      c.status(401);
+      return c.json({ message: "unauthorized" });
+    }
+    const user = await prisma.user.findUnique({
+      where: {
+        id: payload.id,
+      },
+    });
+    if (!user) {
+      c.status(404);
+      return c.json({ message: "User not found" });
+    }
+    c.set("userId", payload.id);
+    return;
+  } catch (e: any) {
+    c.status(500);
+    return c.json({ message: e.message });
   }
 });
 
@@ -149,11 +185,11 @@ app.put("/api/v1/blog", async (c) => {
     datasourceUrl: c.env?.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const { success } = updatePostInput.safeParse(body);
-    if (!success) {
+    const result = updatePostInput.safeParse(body);
+    if (!result.success) {
       c.status(400);
       return c.json({
-        message: "invalid payload",
+        message: result.error.errors[0].message,
       });
     }
     await prisma.post.update({

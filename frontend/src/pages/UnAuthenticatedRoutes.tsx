@@ -2,8 +2,8 @@ import { isAuthenticatedAtom } from "@/state/atoms";
 import { Outlet, Navigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-const PrivateRoutes = () => {
+const UnAuthenticatedRoutes = () => {
   const isAuthenticated = useRecoilValue(isAuthenticatedAtom);
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
+  return isAuthenticated ? <Navigate to="/homepage" /> : <Outlet />;
 };
-export default PrivateRoutes;
+export default UnAuthenticatedRoutes;
