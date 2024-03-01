@@ -1,8 +1,8 @@
 {
   "name": "@jayeshn/blog-common",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "",
-  "main": "index.js",
+  "main": "dst/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -13,7 +13,7 @@ function Main() {
       setIsLoading(false);
     }, 3000);
 
-    return () => clearTimeout(timer); // cleanup on unmount
+    return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) return <CustomLoader />;

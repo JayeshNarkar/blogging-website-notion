@@ -17,7 +17,7 @@ const NavbarCustom = () => {
   };
 
   return (
-    <div className="flex justify-between p-2 border-b-2">
+    <div className="flex justify-between p-2 border-b-2 border-primary">
       <div className="flex justify-start content-start mr-2">
         <button
           className="flex items-center justify-center mr-2 hover:underline"
@@ -28,22 +28,29 @@ const NavbarCustom = () => {
         </button>
         {isAuthenticated && (
           <>
-            <Button className="mr-2" onClick={() => navigate("/homepage")}>
+            <Button
+              className="mr-2 font-bold"
+              onClick={() => navigate("/home")}
+            >
               Home
             </Button>
-            <Button>My blogs</Button>
+            <Button className="font-bold">My blogs</Button>
           </>
         )}
       </div>
       <div className="flex items-end justify-end">
         {isAuthenticated ? (
-          <Button variant={"secondary"} className="mr-2" onClick={LogOutHander}>
+          <Button
+            variant={"secondary"}
+            className="mr-2 font-bold"
+            onClick={LogOutHander}
+          >
             Log out
           </Button>
         ) : (
           <>
             <Button
-              className="mr-2"
+              className="mr-2 font-bold"
               onClick={() => navigate("/signin")}
               variant={"secondary"}
             >

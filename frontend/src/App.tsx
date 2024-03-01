@@ -45,7 +45,7 @@ function MainApp() {
             <Route path="/signin" Component={SigninPage} />
           </Route>
           <Route element={<AuthenticatedRoutes />}>
-            <Route path="/homepage" Component={HomePage} />
+            <Route path="/home" Component={HomePage} />
             <Route path="/createblog" Component={CreateBlogPostPage} />
           </Route>
         </Routes>

@@ -4,6 +4,6 @@ import { useRecoilValue } from "recoil";
 
 const UnAuthenticatedRoutes = () => {
   const isAuthenticated = useRecoilValue(isAuthenticatedAtom);
-  return isAuthenticated ? <Navigate to="/homepage" /> : <Outlet />;
+  return isAuthenticated ? <Navigate to="/home" /> : <Outlet />;
 };
 export default UnAuthenticatedRoutes;

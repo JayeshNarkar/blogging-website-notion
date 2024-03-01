@@ -30,6 +30,7 @@ export const createPostInput = z.object({
 export type createPostType = z.infer<typeof createPostInput>;
 
 export const updatePostInput = z.object({
+  id: z.string().min(3),
   title: z
     .string()
     .min(5, { message: "title too short must be 5 characters" })
@@ -39,3 +40,13 @@ export const updatePostInput = z.object({
     .min(5, { message: "content should be atleast 5 characters" })
     .optional(),
 });
+
+export type updatePostType = z.infer<typeof updatePostInput>;
+
+export type postType = {
+  authorId: string;
+  content: string;
+  id: string;
+  published: boolean;
+  title: string;
+};

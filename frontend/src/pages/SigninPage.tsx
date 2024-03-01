@@ -49,12 +49,11 @@ const SigninPage = () => {
     };
     try {
       const response = await axios.post(backendUrl + "/signin", payload);
-      console.log(response);
       localStorage.setItem("token", `Bearer ${response.data.jwt}`);
       setIsAuthenticated(true);
       setSuccessMessage("Signed in successfully!");
       setTimeout(() => {
-        navigate("/homepage");
+        navigate("/home");
       }, 5000);
     } catch (error: any) {
       console.log(error);

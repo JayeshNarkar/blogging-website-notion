@@ -59,15 +59,14 @@ const SignupPage = () => {
     };
     try {
       const response = await axios.post(backendUrl + "/signup", payload);
-      console.log(response);
       localStorage.setItem("token", `Bearer ${response.data.jwt}`);
       setIsAuthenticated(true);
       setSuccessMessage("Signed up successfully!");
       setTimeout(() => {
-        navigate("/homepage");
+        navigate("/home");
       }, 5000);
     } catch (error: any) {
-      console.log(error);
+      console.log(error.response.data.message);
       setErrorMessage(error?.response?.data?.message || "Error signing in");
     } finally {
       setIsLoading(false);

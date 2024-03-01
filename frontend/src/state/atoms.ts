@@ -1,5 +1,15 @@
-import axios from "axios";
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
+import {
+  currentBlogSelector,
+  isAuthenticatedSelector,
+  postsSelector,
+} from "./selector";
+import { postType } from "@/assets/types";
+
+export const currentBlogAtom = atom<string>({
+  key: "currentBlog",
+  default: currentBlogSelector,
+});
 
 export const userTokenState = atom<string>({
   key: "userToken",
@@ -8,26 +18,7 @@ export const userTokenState = atom<string>({
 
 export const isAuthenticatedAtom = atom<Boolean>({
   key: "isAuthenticated",
-  default: selector({
-    key: "validateTokenSelector",
-    get: async ({ get }) => {
-      const token = get(userTokenState);
-      if (token === "") {
-        return false;
-      }
-      try {
-        await axios.get("/api/v1/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        return true;
-      } catch (error) {
-        localStorage.removeItem("token");
-        return false;
-      }
-    },
-  }),
+  default: isAuthenticatedSelector,
 });
 
 export const emailAtom = atom<string>({
@@ -53,4 +44,9 @@ export const contentAtom = atom<string>({
 export const backendUrlAtom = atom<string>({
   key: "backendUrl",
   default: "https://backend.jayesh-narkar18.workers.dev/api/v1",
+});
+
+export const postsAtom = atom<postType[]>({
+  key: "Posts",
+  default: postsSelector,
 });
