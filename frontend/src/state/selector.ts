@@ -1,6 +1,7 @@
 import { selector } from "recoil";
 import axios from "axios";
 import { backendUrlAtom, postsAtom, userTokenState } from "@/state/atoms";
+import { postType } from "@/assets/types";
 
 export const currentBlogSelector = selector({
   key: "currentBlogSelector",
@@ -55,5 +56,17 @@ export const postsSelector = selector({
       console.log(e);
       return [];
     }
+  },
+});
+
+export const currentPostObjSelector = selector({
+  key: "currentPostObjSelector",
+  get: ({ get }) => {
+    const currentBlogId = get(currentBlogSelector);
+    const posts = get(postsSelector);
+    const currentPost = posts.find(
+      (post: postType) => post.id === currentBlogId
+    );
+    return currentPost;
   },
 });

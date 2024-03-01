@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 import {
   currentBlogSelector,
+  currentPostObjSelector,
   isAuthenticatedSelector,
   postsSelector,
 } from "./selector";
@@ -49,4 +50,9 @@ export const backendUrlAtom = atom<string>({
 export const postsAtom = atom<postType[]>({
   key: "Posts",
   default: postsSelector,
+});
+
+export const currentPostObjAtom = atom<postType>({
+  key: "currentPostObj",
+  default: currentPostObjSelector,
 });

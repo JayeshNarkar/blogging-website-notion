@@ -32,6 +32,7 @@ export default function CustomSidebar() {
       setCurrentBlog(id);
     });
   };
+
   if (
     postsLoading.state === "loading" ||
     currentBlogLoading.state === "loading"
@@ -108,7 +109,7 @@ export default function CustomSidebar() {
                 return (
                   <React.Fragment key={index}>
                     <AccordionContent
-                      className={`flex text-center font-semibold text-xl m-3 ${
+                      className={`flex text-center font-semibold text-xl m-3 justify-between content-between ${
                         post.id === currentBlog ? "text-primary" : ""
                       } ${postBeingDeleted === post.id ? "text-muted" : ""}
                       `}
