@@ -1,14 +1,12 @@
 import CustomLoader from "@/components/ui/custom-loader";
 import CustomSidebar from "@/components/ui/custom-sidebar";
 import { currentBlogAtom, currentPostObjAtom } from "@/state/atoms";
-import { useEffect } from "react";
-import { useRecoilStateLoadable, useRecoilValueLoadable } from "recoil";
+
+import { useRecoilValueLoadable } from "recoil";
 
 const HomePage = () => {
-  const [currentPostLoading, setCurrentPost] =
-    useRecoilStateLoadable(currentPostObjAtom);
-  const [currentBlogLoading, setCurrentBlog] =
-    useRecoilStateLoadable(currentBlogAtom);
+  const currentPostLoading = useRecoilValueLoadable(currentPostObjAtom);
+  const currentBlogLoading = useRecoilValueLoadable(currentBlogAtom);
 
   if (
     currentPostLoading.state === "loading" ||
