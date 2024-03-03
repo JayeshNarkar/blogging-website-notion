@@ -50,13 +50,16 @@ const SigninPage = () => {
     try {
       const response = await axios.post(backendUrl + "/signin", payload);
       localStorage.setItem("token", `Bearer ${response.data.jwt}`);
-      setIsAuthenticated(true);
       setSuccessMessage("Signed in successfully!");
+      axios.defaults.headers.common["Authorization"] =
+        localStorage.getItem("token");
       setTimeout(() => {
+        setIsAuthenticated(true);
         navigate("/home");
       }, 5000);
     } catch (error: any) {
       console.log(error);
+      setSuccessMessage("");
       setErrorMessage(error?.response?.data?.message || "Error signing in");
     } finally {
       setIsLoading(false);

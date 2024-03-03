@@ -26,17 +26,6 @@ const NavbarCustom = () => {
           <SquareIcon />
           MEDIUM
         </button>
-        {isAuthenticated && (
-          <>
-            <Button
-              className="mr-2 font-bold"
-              onClick={() => navigate("/home")}
-            >
-              Home
-            </Button>
-            <Button className="font-bold">My blogs</Button>
-          </>
-        )}
       </div>
       <div className="flex items-end justify-end">
         {isAuthenticated ? (

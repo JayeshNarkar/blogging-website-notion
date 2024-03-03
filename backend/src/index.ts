@@ -47,6 +47,14 @@ app.post("/api/v1/signup", async (c) => {
         password: body.password,
       },
     });
+    const defaultPost = prisma.post.create({
+      data: {
+        title: "Getting Started!",
+        content:
+          "This is a website made for note taking which is used to display the available notes, make new notes and do all that while also not needing to perform constant page reloads!",
+        authorId: user.id,
+      },
+    });
     const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
     return c.json({ jwt });
   } catch (e) {

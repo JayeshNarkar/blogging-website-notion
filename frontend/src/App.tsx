@@ -5,7 +5,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
-import CreateBlogPostPage from "./pages/CreateBlogPage";
 import SignupPage from "./pages/SignupPage";
 import SigninPage from "./pages/SigninPage";
 import AuthenticatedRoutes from "./pages/AuthenticatedRoutes";
@@ -46,7 +45,6 @@ function MainApp() {
           </Route>
           <Route element={<AuthenticatedRoutes />}>
             <Route path="/home" Component={HomePage} />
-            <Route path="/createblog" Component={CreateBlogPostPage} />
           </Route>
         </Routes>
       </>

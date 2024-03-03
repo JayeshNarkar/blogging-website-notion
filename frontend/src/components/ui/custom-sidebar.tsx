@@ -1,7 +1,7 @@
 import { backendUrlAtom, currentBlogAtom, postsAtom } from "@/state/atoms";
-import React, { useState } from "react";
 import { useRecoilStateLoadable, useRecoilValue } from "recoil";
-import { startTransition } from "react";
+
+import React, { useState, startTransition } from "react";
 
 import {
   Accordion,
@@ -16,20 +16,25 @@ import axios from "axios";
 import { BeatLoader } from "react-spinners";
 import { Button } from "./button";
 import { TrashIcon } from "@radix-ui/react-icons";
+import { postType } from "@/assets/types";
 
 export default function CustomSidebar() {
-  const [postLoading, setPostLoading] = useState(false);
-  const [currentBlogLoading, setCurrentBlog] =
+  let [currentBlogLoading, setCurrentBlog] =
     useRecoilStateLoadable(currentBlogAtom);
-  const [postsLoading, setPosts] = useRecoilStateLoadable(postsAtom);
-  const [search, setSearch] = useState("");
-  const [postBeingDeleted, setPostBeingDeleted] = useState("");
+  let [postsLoading, setPosts] = useRecoilStateLoadable(postsAtom);
 
   const backendUrl = useRecoilValue(backendUrlAtom);
 
-  const changeCurrentActiveHandler = (id: string) => {
+  const [search, setSearch] = useState("");
+  const [postBeingDeleted, setPostBeingDeleted]: [
+    postBeinDeleted: postType[] | 1,
+    setPostBeingDeleted: any
+  ] = useState([]);
+  const [postLoading, setPostLoading] = useState(false);
+
+  const changeCurrentActiveHandler = (post: postType) => {
     startTransition(() => {
-      setCurrentBlog(id);
+      setCurrentBlog(post);
     });
   };
 
@@ -50,16 +55,17 @@ export default function CustomSidebar() {
       post.title.toLowerCase().includes(search.toLowerCase())
     );
 
-    const deletePostHandler = async (id: string) => {
+    const deletePostHandler = async (post: postType) => {
       try {
         const response = await axios.delete(backendUrl + "/blog", {
           data: {
-            id,
+            id: post.id,
           },
         });
+        setPostBeingDeleted([...postBeingDeleted, post]);
         console.log(response);
         if (response.data.deleted)
-          setPosts((posts) => posts.filter((post) => post.id !== id));
+          setPosts((posts) => posts.filter((post) => post.id !== post.id));
       } catch (e) {
         console.log(e);
       }
@@ -75,7 +81,6 @@ export default function CustomSidebar() {
         console.log(error);
       } finally {
         setPostLoading(false);
-        setPostBeingDeleted("");
       }
     };
 
@@ -110,13 +115,19 @@ export default function CustomSidebar() {
                   <React.Fragment key={index}>
                     <AccordionContent
                       className={`flex text-center font-semibold text-xl m-3 justify-between content-between ${
-                        post.id === currentBlog ? "text-primary" : ""
-                      } ${postBeingDeleted === post.id ? "text-muted" : ""}
+                        post.id === currentBlog?.id ? "text-primary" : ""
+                      } ${
+                        postBeingDeleted.some(
+                          (deletedPost) => deletedPost.id === post.id
+                        )
+                          ? "text-muted"
+                          : ""
+                      }
                       `}
                       id={post.id}
                     >
                       <button
-                        onClick={() => changeCurrentActiveHandler(post.id)}
+                        onClick={() => changeCurrentActiveHandler(post)}
                         className="hover:underline"
                       >
                         -- {post.title}
@@ -124,8 +135,7 @@ export default function CustomSidebar() {
                       <Button
                         variant={"destructive"}
                         onClick={() => {
-                          setPostBeingDeleted(post.id);
-                          deletePostHandler(post.id);
+                          deletePostHandler(post);
                         }}
                       >
                         <TrashIcon />

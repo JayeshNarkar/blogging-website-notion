@@ -60,9 +60,11 @@ const SignupPage = () => {
     try {
       const response = await axios.post(backendUrl + "/signup", payload);
       localStorage.setItem("token", `Bearer ${response.data.jwt}`);
-      setIsAuthenticated(true);
+      axios.defaults.headers.common["Authorization"] =
+        localStorage.getItem("token");
       setSuccessMessage("Signed up successfully!");
       setTimeout(() => {
+        setIsAuthenticated(true);
         navigate("/home");
       }, 5000);
     } catch (error: any) {
