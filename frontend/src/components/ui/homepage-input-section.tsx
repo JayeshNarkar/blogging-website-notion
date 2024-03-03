@@ -5,7 +5,6 @@ import {
   useSetRecoilState,
 } from "recoil";
 import CustomLoader from "./custom-loader";
-import { postType } from "@/assets/types";
 import axios from "axios";
 
 const HomepageInputSection = () => {
