@@ -27,7 +27,7 @@ export default function CustomSidebar() {
 
   const [search, setSearch] = useState("");
   const [postBeingDeleted, setPostBeingDeleted]: [
-    postBeinDeleted: postType[] | 1,
+    postBeinDeleted: string[] | 1,
     setPostBeingDeleted: any
   ] = useState([]);
   const [postLoading, setPostLoading] = useState(false);
@@ -57,15 +57,17 @@ export default function CustomSidebar() {
 
     const deletePostHandler = async (post: postType) => {
       try {
+        setPostBeingDeleted([...postBeingDeleted, post.id]);
         const response = await axios.delete(backendUrl + "/blog", {
           data: {
             id: post.id,
           },
         });
-        setPostBeingDeleted([...postBeingDeleted, post]);
         console.log(response);
         if (response.data.deleted)
-          setPosts((posts) => posts.filter((post) => post.id !== post.id));
+          setPosts((posts) =>
+            posts.filter((postParam) => postParam.id !== post.id)
+          );
       } catch (e) {
         console.log(e);
       }
@@ -116,9 +118,9 @@ export default function CustomSidebar() {
                     <AccordionContent
                       className={`flex text-center font-semibold text-xl m-3 justify-between content-between ${
                         post.id === currentBlog?.id ? "text-primary" : ""
-                      } ${
-                        postBeingDeleted.some(
-                          (deletedPost) => deletedPost.id === post.id
+                      } ${" "} ${
+                        postBeingDeleted.find(
+                          (deletedPost) => deletedPost === post.id
                         )
                           ? "text-muted"
                           : ""
