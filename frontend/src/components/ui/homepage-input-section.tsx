@@ -112,7 +112,7 @@ const HomepageInputSection = () => {
     return (
       <div className="m-3 min-h-screen md:min-h-[90vh]">
         <div className="font-semibold">
-          <label htmlFor="title" className="text-primary">
+          <label htmlFor="title" className="text-primary text-xl">
             Title:
           </label>
           <textarea
@@ -126,7 +126,10 @@ const HomepageInputSection = () => {
         </div>
         <br />
         <div>
-          <label htmlFor="content" className="font-semibold text-primary">
+          <label
+            htmlFor="content"
+            className="font-semibold text-primary text-xl"
+          >
             Content:
           </label>
           <textarea
