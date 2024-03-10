@@ -1,4 +1,4 @@
-# Notion Clone
+# Medium Note Taking
 
 This project is a Notion clone that aims to replicate the core functionalities of Notion using a backend built with Cloudflare Workers (Hono), Prisma (SQL), and Zod for validation. The frontend is developed using React.
 
@@ -18,6 +18,12 @@ This project is a Notion clone that aims to replicate the core functionalities o
   - An npm package created and deployed, exporting Zod objects for sign in, sign up, create blog, and update blog functionalities.
 - Frontend:
   - React: A popular JavaScript library for building user interfaces.
+
+## Solved Problems:
+
+- Organization and Accessibility: This note-taking app addresses the problem of scattered and disorganized notes by providing a centralized platform for capturing and managing them.
+- Time Management: The auto-saving feature eliminates the need for manual saving, potentially saving users time and preventing data loss due to accidental closure.
+- Responsiveness and User Experience: The dynamic and responsive UI ensures a consistent and visually appealing experience across different devices and screen sizes.
 
 ## Getting Started
 
