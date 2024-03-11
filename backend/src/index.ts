@@ -7,7 +7,6 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import {
   signupInput,
   signinInput,
-  createPostInput,
   updatePostInput,
 } from "@jayeshn/blog-common/dst";
 import { cors } from "hono/cors";
