@@ -43,7 +43,7 @@ export const contentAtom = atom<string>({
 
 export const backendUrlAtom = atom<string>({
   key: "backendUrl",
-  default: "http://localhost:8787/api/v1",
+  default: "https://backend.jayesh-narkar18.workers.dev/api/v1",
 });
 
 export const postsAtom = atom<postType[]>({
